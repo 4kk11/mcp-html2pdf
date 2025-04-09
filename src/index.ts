@@ -65,7 +65,9 @@ const createServer = () => {
   );
 
   // PDF出力先ディレクトリの設定
-  const OUTPUT_DIR = path.join(__dirname, "../outputs");
+  const OUTPUT_DIR = process.env.PDF_OUTPUT_DIR
+    ? path.resolve(process.env.PDF_OUTPUT_DIR)
+    : path.join(__dirname, "../outputs");
 
   // ツール一覧の取得ハンドラー
   server.setRequestHandler(ListToolsRequestSchema, async () => {
@@ -118,6 +120,9 @@ const createServer = () => {
 
         await browser.close();
 
+        // 出力先ディレクトリが存在しない場合は作成
+        await fs.mkdir(OUTPUT_DIR, { recursive: true });
+        
         // PDFファイルを保存
         await fs.writeFile(outputPath, pdfBuffer);
 
