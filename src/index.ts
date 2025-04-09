@@ -65,7 +65,7 @@ const createServer = () => {
   );
 
   // PDF出力先ディレクトリの設定
-  const OUTPUT_DIR = path.join(__dirname, "../output");
+  const OUTPUT_DIR = path.join(__dirname, "../outputs");
 
   // ツール一覧の取得ハンドラー
   server.setRequestHandler(ListToolsRequestSchema, async () => {
