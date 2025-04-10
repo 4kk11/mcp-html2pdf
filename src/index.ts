@@ -37,10 +37,10 @@ const PdfOptionSchema = z.object({
       left: z.string().default("1cm").describe("左マージン"),
     })
     .default({
-      top: "1cm",
-      right: "1cm",
-      bottom: "1cm",
-      left: "1cm",
+      top: "0cm",
+      right: "0cm",
+      bottom: "0cm",
+      left: "0cm",
     })
     .describe("PDFのマージン設定"),
 });
@@ -92,33 +92,42 @@ const createServer = () => {
       const defaultOptions = {
         format: "A4" as const,
         margin: {
-          top: "1cm",
-          right: "1cm",
-          bottom: "1cm",
-          left: "1cm",
+          top: "0cm",
+          right: "0cm",
+          bottom: "0cm",
+          left: "0cm",
         },
       };
       const pdfOptions = {
         format: options?.format || defaultOptions.format,
         margin: options?.margin || defaultOptions.margin,
+        landscape: false, printBackground: true
       };
 
       try {
         const browser = await puppeteer.launch({
           headless: true,
+          args: [
+            '--no-sandbox', 
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage', 
+            '--disable-gpu'
+          ]
         });
         const page = await browser.newPage();
-        await page.setContent(html, { waitUntil: "networkidle0" });
-
-        // ファイル名に現在時刻を含める
-        const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-        const filename = `pdf-${timestamp}.pdf`;
-        const outputPath = path.join(OUTPUT_DIR, filename);
+        await page.setContent(html, { waitUntil: "domcontentloaded" }); // より緩い条件に変更
+        console.error("[MCP] HTML content set");
 
         // PDFバッファを生成
         const pdfBuffer = await page.pdf(pdfOptions);
 
         await browser.close();
+        console.error("[MCP] PDF generated");
+
+        // ファイル名に現在時刻を含める
+        const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+        const filename = `pdf-${timestamp}.pdf`;
+        const outputPath = path.join(OUTPUT_DIR, filename);
 
         // 出力先ディレクトリが存在しない場合は作成
         await fs.mkdir(OUTPUT_DIR, { recursive: true });
