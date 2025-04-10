@@ -1,19 +1,22 @@
 {
   "name": "mcp-html2pdf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server for converting HTML to PDF",
-  "main": "build/index.js",
+  "main": "./build/index.js",
+  "keywords": ["mcp", "html", "pdf"],
   "author": "4kk11",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "mcp-html2pdf": "./build/index.js"
+  },
   "scripts": {
-    "build": "tsc && chmod 755 build/index.js",
-    "start": "node build/index.js"
+    "build": "tsc && chmod 755 build/index.js"
   },
   "files": [
     "build"
   ],
-  "keywords": ["mcp", "html", "pdf"],
+  "private": false,
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.9.0",
     "puppeteer": "^24.6.0",

@@ -21,6 +21,8 @@ make docker-clean
       "args": [
         "run",
         "-i",
+        "--shm-size",
+        "2G",
         "--rm",
         "-v",
         "YOUR_PDF_OUTPUT_DIR:/app/outputs",
@@ -42,21 +44,18 @@ docker pull 4kk11/mcp-html2pdf
 ```json
 {
   "mcpServers": {
-    "html-templates": {
+    "html2pdf": {
       "command": "docker",
       "args": [
         "run",
         "-i",
+        "--shm-size",
+        "2G",
         "--rm",
-        "-v", // optional
-        "YOUR_TEMPLATES_DIR:/app/resources", // optional
-        "-e", // 
-        "READ_ONLY",
+        "-v",
+        "YOUR_PDF_OUTPUT_DIR:/app/outputs",
         "4kk11/mcp-html2pdf"
-      ],
-      "env": {
-        "READ_ONLY": "false"
-      }
+      ]
     },
   }
 }
@@ -74,8 +73,7 @@ docker pull 4kk11/mcp-html2pdf
         "mcp-html2pdf"
       ],
       "env": {
-        "READ_ONLY": "false",
-        "TEMPLATES_DIR": "YOUR_TEMPLATES_DIR"
+        "PDF_OUTPUT_DIR": "YOUR_PDF_OUTPUT_DIR"
       }
     }
 }
