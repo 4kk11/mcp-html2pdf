@@ -4,17 +4,14 @@
 [![Docker Image](https://img.shields.io/docker/v/4kk11/mcp-html2pdf?logo=docker)](https://hub.docker.com/r/4kk11/mcp-html2pdf)
 
 HTMLをPDFに変換するためのMCPサーバーです。  
-Webページやテンプレートから高品質なPDFを生成することができます。
+WebページやLLMが生成したHTMLコンテンツをPDF形式で保存することができます。
 
 ## 主な機能
 
 ### HTMLからPDFへの変換
-HTMLコンテンツをPDFに変換します。CSSを含む完全なレイアウトとスタイルをサポートしています。
-
+HTMLコンテンツをPDFに変換します。
 
 https://github.com/user-attachments/assets/09e53345-614c-4179-80b3-834787d4bdfc
-
-
 
 ## インストール方法
 
