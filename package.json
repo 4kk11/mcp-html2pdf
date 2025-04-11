@@ -1,6 +1,6 @@
 {
   "name": "mcp-html2pdf",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP server for converting HTML to PDF",
   "main": "./build/index.js",
   "keywords": ["mcp", "html", "pdf"],

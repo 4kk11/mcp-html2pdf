@@ -28,13 +28,13 @@ const PdfOptionSchema = z.object({
   format: z
     .enum(["A4", "A3", "Letter", "Legal"])
     .default("A4")
-    .describe("PDF出力時の用紙フォーマット"),
+    .describe("Paper format for PDF output"),
   margin: z
     .object({
-      top: z.string().default("1cm").describe("上マージン"),
-      right: z.string().default("1cm").describe("右マージン"),
-      bottom: z.string().default("1cm").describe("下マージン"),
-      left: z.string().default("1cm").describe("左マージン"),
+      top: z.string().default("1cm").describe("Top margin"),
+      right: z.string().default("1cm").describe("Right margin"),
+      bottom: z.string().default("1cm").describe("Bottom margin"),
+      left: z.string().default("1cm").describe("Left margin"),
     })
     .default({
       top: "0cm",
@@ -42,13 +42,13 @@ const PdfOptionSchema = z.object({
       bottom: "0cm",
       left: "0cm",
     })
-    .describe("PDFのマージン設定"),
+    .describe("PDF margin settings"),
 });
 
 // HTML to PDF変換の入力スキーマ
 const ConvertToPdfSchema = z.object({
-  html: z.string().describe("変換対象のHTML内容"),
-  options: PdfOptionSchema.optional().describe("PDF生成オプション"),
+  html: z.string().describe("HTML content to convert"),
+  options: PdfOptionSchema.optional().describe("PDF generation options"),
 });
 
 const createServer = () => {
@@ -74,7 +74,7 @@ const createServer = () => {
     const tools: Tool[] = [
       {
         name: ToolName.CONVERT_TO_PDF,
-        description: "HTMLをPDFに変換してoutputディレクトリに保存します",
+        description: "Convert HTML to PDF and save it in the output directory",
         inputSchema: zodToJsonSchema(ConvertToPdfSchema) as Tool["inputSchema"],
       },
     ];
