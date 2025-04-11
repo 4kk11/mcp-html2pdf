@@ -6,6 +6,8 @@
 HTMLをPDFに変換するためのMCPサーバーです。  
 WebページやLLMが生成したHTMLコンテンツをPDF形式で保存することができます。
 
+[mcp-html-templates](https://github.com/4kk11/mcp-html-templates)と組み合わせることで、HTMLテンプレートから直接PDFを生成することができます。
+
 ## 主な機能
 
 ### HTMLからPDFへの変換
