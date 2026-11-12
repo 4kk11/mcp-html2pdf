@@ -12,6 +12,7 @@ import {
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import puppeteer from "puppeteer";
+import { securePage } from "./render-security.js";
 import path from "path";
 import fs from "fs/promises";
 import { fileURLToPath } from "url";
@@ -104,24 +105,23 @@ const createServer = () => {
         landscape: false, printBackground: true
       };
 
+      let browser;
       try {
-        const browser = await puppeteer.launch({
+        browser = await puppeteer.launch({
           headless: true,
           args: [
-            '--no-sandbox', 
-            '--disable-setuid-sandbox',
             '--disable-dev-shm-usage', 
             '--disable-gpu'
           ]
         });
         const page = await browser.newPage();
+        await securePage(page);
         await page.setContent(html, { waitUntil: "domcontentloaded" }); // より緩い条件に変更
         console.error("[MCP] HTML content set");
 
         // PDFバッファを生成
         const pdfBuffer = await page.pdf(pdfOptions);
 
-        await browser.close();
         console.error("[MCP] PDF generated");
 
         // ファイル名に現在時刻を含める
@@ -149,6 +149,8 @@ const createServer = () => {
           ErrorCode.InternalError,
           `PDF generation failed: ${errorMessage}`
         );
+      } finally {
+        await browser?.close();
       }
     }
 

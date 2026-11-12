@@ -19,7 +19,7 @@ RUN apk update && \
     apk add --no-cache \
     chromium \
     font-noto-cjk \
-    font-noto-emoji \ 
+    font-noto-emoji \
     fontconfig
 
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
@@ -30,6 +30,9 @@ COPY --from=builder /app/package-lock.json ./
 
 ENV NODE_ENV=production
 
-RUN npm ci --ignore-scripts --omit=dev
+RUN npm ci --ignore-scripts --omit=dev && \
+    mkdir -p /app/outputs && chown -R node:node /app
+
+USER node
 
 ENTRYPOINT ["node", "build/index.js"]
